@@ -1,0 +1,51 @@
+import { jsx as _jsx, jsxs as _jsxs } from "react/jsx-runtime";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { bootstrapSession } from "./engine/authEngine";
+import ProtectedRoute from "./shared/ProtectedRoute";
+import RoleGate from "./shared/RoleGate";
+import AuthLayout from "./layout/AuthLayout";
+import Login from "./flows/auth/Login";
+import RegisterCustomer from "./flows/auth/RegisterCustomer";
+import RegisterOwner from "./flows/auth/RegisterOwner";
+import Pending from "./flows/auth/Pending";
+import Unauthorized from "./flows/auth/Unauthorized";
+import OwnerApprovals from "./flows/admin/OwnerApprovals";
+import AdminHome from "./flows/admin/AdminHome";
+import AdminLayout from "./layout/AdminLayout";
+import OwnerLayout from "./layout/OwnerLayout";
+import OwnerHome from "./flows/owner/OwnerHome";
+import OwnerTurfs from "./flows/owner/OwnerTurfs";
+import OwnerTurfManage from "./flows/owner/OwnerTurfManage";
+import EditTurfPage from "./flows/owner/EditTurfPage";
+import Toasts from "./components/Toast";
+import ManageTurfImages from "./flows/owner/ManageTurfImages";
+import TurfSchedule from "./flows/owner/TurfSchedule";
+import OwnerTurfSlots from "./flows/owner/OwnerTurfSlots";
+import CustomerLayout from "./layout/CustomerLayout";
+import CustomerTurfDetails from "./flows/customer/TurfDetails";
+import CustomerDashboard from "./flows/customer/dashboard";
+import CustomerBookingReview from "./flows/customer/CustomerBookingReview";
+import PaymentSuccess from "./flows/customer/PaymentSuccess";
+import PaymentFailed from "./flows/customer/PaymentFailed";
+import BookingDetails from "./flows/customer/BookingDetails";
+import MyBookings from "./flows/customer/Mybookings";
+import OwnerBookingsList from "./flows/owner/BookingList";
+import OwnerBookingDetails from "./flows/owner/OwnerBookingDetails";
+import OwnerProfile from "./flows/owner/OwnerProfile";
+import OwnerEarnings from "./flows/owner/Earnings";
+import PayoutBatchDetails from "./flows/admin/PayoutBatchDetails";
+import AdminPayoutsList from "./flows/admin/PayoutList";
+import PayoutExecutionDetails from "./flows/admin/PayoutExecutionDetails";
+import CustomerProfile from "./flows/customer/CustomerProfile";
+import ForgotPassword from "./flows/auth/ForgotPassword";
+import ResetPassword from "./flows/auth/ResetPassword";
+export default function App() {
+    const [ready, setReady] = useState(false);
+    useEffect(() => {
+        bootstrapSession().finally(() => setReady(true));
+    }, []);
+    if (!ready)
+        return null;
+    return (_jsxs(BrowserRouter, { children: [_jsx(Toasts, {}), _jsxs(Routes, { children: [_jsxs(Route, { element: _jsx(AuthLayout, {}), children: [_jsx(Route, { path: "/auth/login", element: _jsx(Login, {}) }), _jsx(Route, { path: "/auth/register/customer", element: _jsx(RegisterCustomer, {}) }), _jsx(Route, { path: "/auth/register/owner", element: _jsx(RegisterOwner, {}) }), _jsx(Route, { path: "/forgot-password", element: _jsx(ForgotPassword, {}) }), _jsx(Route, { path: "/reset-password", element: _jsx(ResetPassword, {}) })] }), _jsx(Route, { path: "/pending", element: _jsx(Pending, {}) }), _jsx(Route, { path: "/unauthorized", element: _jsx(Unauthorized, {}) }), _jsxs(Route, { element: _jsx(ProtectedRoute, {}), children: [_jsx(Route, { element: _jsx(RoleGate, { allow: ["CUSTOMER"] }), children: _jsxs(Route, { path: "/app/customer", element: _jsx(CustomerLayout, {}), children: [_jsx(Route, { index: true, element: _jsx(CustomerDashboard, {}) }), _jsx(Route, { path: "turfs/:turfId", element: _jsx(CustomerTurfDetails, {}) }), _jsx(Route, { path: "booking/review", element: _jsx(CustomerBookingReview, {}) }), _jsx(Route, { path: "payment-success", element: _jsx(PaymentSuccess, {}) }), _jsx(Route, { path: "payment-failed", element: _jsx(PaymentFailed, {}) }), _jsx(Route, { path: "bookings", element: _jsx(MyBookings, {}) }), _jsx(Route, { path: "bookings/:bookingId", element: _jsx(BookingDetails, {}) }), _jsx(Route, { path: "profile", element: _jsx(CustomerProfile, {}) })] }) }), _jsx(Route, { element: _jsx(RoleGate, { allow: ["OWNER"] }), children: _jsxs(Route, { path: "/app/owner", element: _jsx(OwnerLayout, {}), children: [_jsx(Route, { index: true, element: _jsx(OwnerHome, {}) }), _jsx(Route, { path: "turfs", element: _jsx(OwnerTurfs, {}) }), _jsx(Route, { path: "turfs/:turfId", element: _jsx(OwnerTurfManage, {}) }), _jsx(Route, { path: "turfs/:turfId/edit", element: _jsx(EditTurfPage, {}) }), _jsx(Route, { path: "turfs/:turfId/images", element: _jsx(ManageTurfImages, {}) }), _jsx(Route, { path: "turfs/:turfId/schedule", element: _jsx(TurfSchedule, {}) }), _jsx(Route, { path: "turfs/:turfId/slots", element: _jsx(OwnerTurfSlots, {}) }), _jsx(Route, { path: "bookings", element: _jsx(OwnerBookingsList, {}) }), _jsx(Route, { path: "booking-details/:bookingId", element: _jsx(OwnerBookingDetails, {}) }), _jsx(Route, { path: "earnings", element: _jsx(OwnerEarnings, {}) }), _jsx(Route, { path: "profile", element: _jsx(OwnerProfile, {}) })] }) }), _jsx(Route, { element: _jsx(RoleGate, { allow: ["ADMIN"] }), children: _jsxs(Route, { path: "/app/admin", element: _jsx(AdminLayout, {}), children: [_jsx(Route, { index: true, element: _jsx(AdminHome, {}) }), _jsx(Route, { path: "owners", element: _jsx(OwnerApprovals, {}) }), _jsx(Route, { path: "payouts", element: _jsx(AdminPayoutsList, {}) }), _jsx(Route, { path: "payouts/:batchId", element: _jsx(PayoutBatchDetails, {}) }), _jsx(Route, { path: "payouts/executions/:executionId", element: _jsx(PayoutExecutionDetails, {}) })] }) })] }), _jsx(Route, { path: "*", element: _jsx(Unauthorized, {}) })] })] }));
+}
